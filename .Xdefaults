@@ -1,3 +1,4 @@
+! -*- mode:conf-xdefaults -*-
 xterm*background:black
 xterm*foreground:lightgrey
 xterm*utf8:1
@@ -30,9 +31,9 @@ URxvt.geometry:171x51
 URxvt.skipBuiltinGlyphs:true
 URxvt.iso14755:false
 URxvt.iso14755_52:false
-!URxvt.font: -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso8859-1,\
+! URxvt.font: -xos4-terminus-medium-r-normal--12-120-72-72-c-60-iso8859-1,\
 !           -misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
-!URxvt.boldFont: -xos4-terminus-bold-r-normal--12-120-72-72-c-60-iso8859-1,\
+! URxvt.boldFont: -xos4-terminus-bold-r-normal--12-120-72-72-c-60-iso8859-1,\
 !               -misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
 
 ! URxvt.font: -xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-1,\
