@@ -1,0 +1,22 @@
+Config
+        { font = "6x13"
+          , border = NoBorder
+          , borderColor = "black"
+          , bgColor = "black"
+          , fgColor = "grey"
+          , position = Top
+          , lowerOnStart = True
+          , commands = 
+          [ Run Network "eth0" ["-t", "<dev>: <rx>Kb/s, <tx>Kb/s"] 10
+            , Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
+            , Run Memory ["-t","Mem: <usedratio>%"] 10
+            , Run Swap [] 10
+            , Run Com "uname" ["-s","-r"] "" 36000
+            , Run Com "dropbox" ["status"] "" 10
+            , Run Com "uptime" [] "" 10
+            , Run Date "%a %b %d %Y %H:%M:%S" "date" 10
+            , Run StdinReader ]
+          , sepChar = "%"
+          , alignSep = "&&"
+          , template = "%StdinReader% && %date%"
+        }
