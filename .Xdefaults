@@ -16,10 +16,8 @@ xterm*altIsNotMeta:true
 xterm*MetaSendsEscape:true
 xterm*PointerMode:0
 
-URxvt.background:#ffffe0
-URxvt.foreground:black
-!URxvt.background:white
-!URxvt.foreground:black
+URxvt.background:black
+URxvt.foreground:lightgrey
 URxvt.loginShell:false
 !URxvt.color12:#8080ff
 URxvt.jumpScroll:true
@@ -35,7 +33,6 @@ URxvt.iso14755_52:false
 !           -misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
 ! URxvt.boldFont: -xos4-terminus-bold-r-normal--12-120-72-72-c-60-iso8859-1,\
 !               -misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
-
 ! URxvt.font: -xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-1,\
 !             -misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
 ! URxvt.boldFont: -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1,\
@@ -50,10 +47,11 @@ URxvt.boldFont: -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1,\
 ! URxvt.boldFont: -xos4-terminus-bold-r-normal--18-180-72-72-c-100-iso8859-1,\
 !                 -misc-simsun-medium-r-normal--16-*-*-*-p-*-iso10646-1
 
-! huge font
-urxvt-huge.font: xft:Bitstream Vera Sans Mono:pixelsize=18,\
+! small & huge font
+urxvt-small.font:6x13,-misc-simsun-medium-r-normal--*-*-*-*-p-*-iso10646-1
+urxvt-large.font: xft:Bitstream Vera Sans Mono:pixelsize=18,\
                  xft: SimSun:pixelsize=18
-urxvt-huge.boldFont: xft:Bitstream Vera Sans Mono:pixelsize=18:weight=bold,\
+urxvt-large.boldFont: xft:Bitstream Vera Sans Mono:pixelsize=18:weight=bold,\
                      xft:SimSun:pixelsize=18:weight=bold
 
 !URxvt.inputMethod:scim

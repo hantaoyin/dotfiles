@@ -8,3 +8,4 @@ add Control = Control_L
 add Lock = Caps_Lock
 clear Mod4
 add Mod4 = Super_L
+add Mod4 = Muhenkan

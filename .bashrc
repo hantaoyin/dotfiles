@@ -3,13 +3,6 @@
 
 # PS1='[\u@\h \W]\$ '
 
-# cd() {
-#     builtin cd "$@"
-#     if [ "$TMUX" != "" ]; then
-#         printf '\033k'"${PWD}"'\033\\'
-#     fi
-# }
-
 # A bold white prompt
 #PS1='\[\033[1;37m\][\u@\h \W]\$\[\033[0m\] '
 
@@ -64,7 +57,6 @@ export HISTFILESIZE=100000
 export HISTCONTROL='erasedups'
 #export HISTIGNORE='&:cd *:ls *'
 
-
 alias ls='ls --color=auto'
 alias la='ls -a'
 # Do not put additional single quotes when a pathname has special characters.
@@ -73,7 +65,7 @@ export QUOTING_STYLE=literal ls
 # Short commands are always for common commands
 alias em='emacs -nw'
 alias emc='emacsclient -n'
-export EDITOR='emacs -nw'
+export EDITOR=emacs
 
 # Always display English manual.
 alias man='LANG=C man'
