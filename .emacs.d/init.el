@@ -27,6 +27,22 @@
 ;;      elt)))
 
 ;;;=================================================================================================
+;;;Set up d-mode (for D programming language)
+;;;=================================================================================================
+;; (add-to-list 'load-path "~/.emacs.d/d-mode")
+;; (require 'd-mode)
+;; (autoload 'd-mode "d-mode" "Major mode for editing D code." t)
+;; (add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
+
+;;;=================================================================================================
+;;;Set up rust-mode (for Rust programming language)
+;;;=================================================================================================
+;; (add-to-list 'load-path "~/.emacs.d/rust-mode")
+;; (require 'rust-mode)
+;; (autoload 'rust-mode "rust-mode" "Major mode for editing Rust code." t)
+;; (add-to-list 'auto-mode-alist '("\\.rs[i]?\\'" . rust-mode))
+
+;;;=================================================================================================
 ;;;Set up EMMS for mpv.
 ;;;=================================================================================================
 ;;; Copied from: https://github.com/dochang/emms-player-mpv/blob/master/emms-player-mpv.el
@@ -112,6 +128,24 @@
 
 (provide 'emms-player-mpv)
 
+(defun emms-player-mpv-volume-change (v)
+  "Change the volume by V for mpv."
+  (let ((cmd (format "echo 'add volume %d' > %s" v emms-mpv-input-file)))
+    (call-process-shell-command cmd nil nil nil)))
+
+(defun emms-player-mpv-volume-set (v)
+  "Set the volume to V for mpv."
+  (interactive "nmpv volume : ")
+  (let ((cmd (format "echo 'set volume %d' > %s" v emms-mpv-input-file)))
+    (call-process-shell-command cmd nil nil nil)))
+
+(defun emms-player-mpv-volume-mute ()
+  "Toggle mute status for mpv."
+  (interactive)
+  (let ((cmd (format "echo 'cycle mute' > %s" emms-mpv-input-file)))
+    (call-process-shell-command cmd nil nil nil)))
+
+
 (setq emms-player-list '(emms-player-mpv))
 (emms-standard)
 (setq emms-cache-file-coding-system 'utf-8)
@@ -144,14 +178,14 @@
 ;;;=================================================================================================
 ;;; Haskell mode
 ;;;=================================================================================================
-;; (add-to-list 'load-path "/usr/share/emacs/site-lisp/haskell-mode")
-;; (load "haskell-mode-autoloads.el")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/haskell-mode")
+(load "haskell-mode-autoloads.el")
 
-;; (require 'haskell-mode)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-;; (setq auto-mode-alist (cons '("\.hs$" . haskell-mode) auto-mode-alist))
-;; (autoload 'haskell-mode "haskell-mode" "Haskell editing mode." t)
+(require 'haskell-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(setq auto-mode-alist (cons '("\.hs$" . haskell-mode) auto-mode-alist))
+(autoload 'haskell-mode "haskell-mode" "Haskell editing mode." t)
 
 ;;;=================================================================================================
 ;;; org-mode
@@ -206,16 +240,21 @@
 
 ;;; turn on hs-minor mode on programming modes.
 ;;; copied code from function turn-on-auto-fill
-(defun turn-on-hs-minor-mode ()
-  "Unconditionally turn on hs minor mode."
-  (hs-minor-mode 1))
-(add-hook 'c-mode-common-hook 'turn-on-hs-minor-mode)
-(setq default-fill-column 100)
+;; (defun turn-on-hs-minor-mode ()
+;;   "Unconditionally turn on hs minor mode."
+;;   (hs-minor-mode 1))
+;; (add-hook 'c-mode-common-hook 'turn-on-hs-minor-mode)
+(setq-default fill-column 100)
 (setq-default indent-tabs-mode nil)
 (setq backup-directory-alist '(("". "/tmp")))
 (setq-default make-backup-files nil)
 (setq inhibit-startup-message t)
 (show-paren-mode t)
+
+;; Deal with slowness when viewing long lines (even in fundamental mode).
+(setq-default bidi-display-reordering nil)
+(setq line-move-visual nil)
+(set-default 'truncate-lines t)
 
 ;;;=================================================================================================
 ;;;Programming
@@ -256,11 +295,13 @@
 ;;; indent width for C like languages
 (setq c-basic-offset 2)
 
-;; Do not indent merely because we are in a namespace.  This is to save
-;; indentation for more useful things.
-(defun c++-no-namespace-indent-cc ()
-  (c-set-offset 'innamespace [0]))
-(add-hook 'c++-mode-hook 'c++-no-namespace-indent-cc)
+(defun c++-custom-indent-cc ()
+  ;; Do not indent merely because we are in a namespace.  This is to save
+  ;; indentation for more useful things.
+  (c-set-offset 'innamespace [0])
+  ;; Remove excessive indentation inside a lambda.
+  (c-set-offset 'inlambda [2]))
+(add-hook 'c++-mode-hook 'c++-custom-indent-cc)
 
 ;;;=================================================================================================
 ;;;for gnuplot editing
@@ -288,6 +329,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-lock-keyword-face ((t (:foreground "brightmagenta"))))
  '(highlight ((((class color) (min-colors 88) (background dark)) (:background "color-235"))))
  '(mode-line ((t (:background "lightgrey" :foreground "black" :box (:line-width 1 :style none) :width condensed :family "Trebuchet MS"))))
  '(region ((nil (:inverse-video t)))))
