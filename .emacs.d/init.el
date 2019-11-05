@@ -4,28 +4,6 @@
 ;;; =======================
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;;;=================================================================================================
-;;; Chinese environment
-;;;=================================================================================================
-;; ;;;修正emacs23对某些中文标点宽度计算的问题
-;; ;;;UAX#11 East Asian Ambiguous Characters的宽度，Emacs23默认为1
-;; ;;;下面的程序将其改为2
-;; ;;;补丁来自http://learn.tsinghua.edu.cn:8080/2002315162/emacs_coding.html
-;; ;;;文章：谈谈Emacs的内部编码
-;; (let ((l '(chinese-gb2312
-;;         gb18030-2-byte
-;;         gb18030-4-byte-bmp
-;;         gb18030-4-byte-ext-1
-;;         gb18030-4-byte-ext-2
-;;         gb18030-4-byte-smp)))
-;;   (dolist (elt l)
-;;     (map-charset-chars #'modify-category-entry elt ?|)
-;;     (map-charset-chars
-;;      (lambda (range ignore) 
-;;        (set-char-table-range char-width-table range 2))
-;;      elt)))
-
 ;;;=================================================================================================
 ;;;Set up d-mode (for D programming language)
 ;;;=================================================================================================
@@ -37,10 +15,10 @@
 ;;;=================================================================================================
 ;;;Set up rust-mode (for Rust programming language)
 ;;;=================================================================================================
-;; (add-to-list 'load-path "~/.emacs.d/rust-mode")
-;; (require 'rust-mode)
-;; (autoload 'rust-mode "rust-mode" "Major mode for editing Rust code." t)
-;; (add-to-list 'auto-mode-alist '("\\.rs[i]?\\'" . rust-mode))
+(add-to-list 'load-path "~/.emacs.d/rust-mode")
+(require 'rust-mode)
+(autoload 'rust-mode "rust-mode" "Major mode for editing Rust code." t)
+(add-to-list 'auto-mode-alist '("\\.rs[i]?\\'" . rust-mode))
 
 ;;;=================================================================================================
 ;;;Set up EMMS for mpv.
@@ -259,25 +237,6 @@
 ;;;=================================================================================================
 ;;;Programming
 ;;;=================================================================================================
-;; Use RET instead C-j for auto indentation when programming.
-;;
-;; Note: In newer versions (>= 24.3) of emacs, RET by default does
-;; newline-and-indent.
-;;
-;; (mapcar
-;;  (lambda (mode)
-;;    (let ((mode-hook (intern (concat (symbol-name mode) "-hook")))
-;;          (mode-map (intern (concat (symbol-name mode) "-map"))))
-;;      (add-hook mode-hook
-;;                `(lambda nil 
-;;                   (local-set-key 
-;;                    (kbd "RET")
-;;                    (or (lookup-key ,mode-map "\C-j")
-;;                        (lookup-key global-map "\C-j"))))))) '(c-mode c++-mode cperl-mode emacs-lisp-mode
-;;                                                                      java-mode html-mode lisp-mode
-;;                                                                      ruby-mode sh-mode python-mode lua-mode
-;;                                                                      haskell-mode scheme-mode))
-
 ;;; Use C-c C-c to comment a region.
 (mapcar
  (lambda (mode)
@@ -295,13 +254,14 @@
 ;;; indent width for C like languages
 (setq c-basic-offset 2)
 
-(defun c++-custom-indent-cc ()
-  ;; Do not indent merely because we are in a namespace.  This is to save
-  ;; indentation for more useful things.
+(defun my-c++-custom-hook ()
+  (c-set-style "linux")
+  ;; Do not indent merely because we are in a namespace.
   (c-set-offset 'innamespace [0])
   ;; Remove excessive indentation inside a lambda.
-  (c-set-offset 'inlambda [2]))
-(add-hook 'c++-mode-hook 'c++-custom-indent-cc)
+  ;; (c-set-offset 'inlambda [0])
+  )
+(add-hook 'c++-mode-hook 'my-c++-custom-hook)
 
 ;;;=================================================================================================
 ;;;for gnuplot editing
