@@ -27,3 +27,7 @@ alias python=python3
 
 # No core files.
 # ulimit -c 0
+
+function fish_prompt -d "Write out the prompt"
+  printf '\e[38;5;198m%s:\e[38;5;33m%s\e[1;35m$ ' (hostname) (echo $PWD | sed -e "s|^$HOME|~|")
+end
