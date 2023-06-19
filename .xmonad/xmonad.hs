@@ -8,19 +8,19 @@
 --
 
 import XMonad
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Config.Gnome
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
-import XMonad.Util.EZConfig
-import XMonad.Actions.WindowMenu
-import XMonad.Actions.GridSelect
-import XMonad.Actions.Plane
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
+import XMonad.Actions.GridSelect
+import XMonad.Actions.Plane
+import XMonad.Actions.WindowMenu
+import XMonad.Config.Gnome
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.IM
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Reflect
+import XMonad.Util.EZConfig
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -31,26 +31,6 @@ import System.IO
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
-
--- The preferred terminal program, which is used in a binding below and by
--- certain contrib modules.
---
-myTerminal      = "urxvt"
-
--- Whether focus follows the mouse pointer.
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-
--- Width of the window border in pixels.
---
-myBorderWidth   = 0
-
--- modMask lets you specify which modkey you want to use. The default
--- is mod1Mask ("left alt").  You may also consider using mod3Mask
--- ("right alt"), which does not conflict with emacs keybindings. The
--- "windows key" is usually mod4Mask.
---
-myModMask       = mod4Mask
 
 -- The default number of workspaces (virtual screens) and their names.
 -- By default we use numeric strings, but any string may be used as a
@@ -66,11 +46,6 @@ myWorkspaces =
     , "6", "7", "8", "9:gimp", "0"
     , "F1", "F2", "F3", "F4", "F5"
     , "F6", "F7", "F8", "F9", "F0" ]
-
--- Border colors for unfocused and focused windows, respectively.
---
-myNormalBorderColor  = "#dddddd"
-myFocusedBorderColor = "#ff0000"
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -151,7 +126,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     [ ((modm .|. shiftMask, xK_m      ), windowMenu)
 --    , ((modm              , xK_a      ), goToSelected gsConfig)
-    , ((modm              , xK_s      ), bringSelected gsConfig) ]
+--    , ((modm              , xK_s      ), bringSelected gsConfig)
+    ]
     ++
 
     -- mod-v, Make focused window always visible
@@ -165,17 +141,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ++
 
     (M.toList $ planeKeys modm (Lines 2) Finite)
-	++
+ ++
     
     [ ((modm              , xK_Up   ), spawn "amixer set Master 3+" )
     , ((modm              , xK_Down ), spawn "amixer set Master 3-" ) ]
 
 
-gsConfig = defaultGSConfig
-    { gs_font = "xft:Dejavu Sans Mono-9"
-    , gs_cellheight = 30
-    , gs_cellwidth = 300
-    , gs_cellpadding = 10 }
+-- gsConfig = defaultGSConfig
+--    { gs_font = "xft:Dejavu Sans Mono-9"
+--    , gs_cellheight = 30
+--    , gs_cellwidth = 300
+--    , gs_cellpadding = 10 }
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
@@ -253,7 +229,7 @@ myManageHook = (manageDocks <+>) $ composeAll $
 ------------------------------------------------------------------------
 -- Event handling
 
--- * EwmhDesktops users should change this to ewmhDesktopsEventHook
+-- EwmhDesktops users should change this to ewmhDesktopsEventHook
 --
 -- Defines a custom handler function for X Events. The function should
 -- return (All True) if the default handler is to be run afterwards. To
@@ -294,38 +270,51 @@ myStartupHook = do
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+-- main = do
+--  xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc"
+--  xmonad $ defaults {
+--    logHook = dynamicLogWithPP xmobarPP {
+--        ppOutput = hPutStrLn xmproc
+--      , ppTitle = xmobarColor "green" "" . shorten 100
+--    }
+--  }
 main = do
-	xmproc <- spawnPipe "xmobar $HOME/.xmonad/xmobarrc"
-	xmonad $ defaults
-		{ logHook = dynamicLogWithPP xmobarPP
-			{ ppOutput = hPutStrLn xmproc
-			, ppTitle = xmobarColor "green" "" . shorten 100 }
-		}
+  xmonad $ defaults
 
 -- A structure containing your configuration settings, overriding
 -- fields in the default config. Any you don't override, will
 -- use the defaults defined in xmonad/XMonad/Config.hs
 --
--- No need to modify this.
---
-defaults = ewmh $ defaultConfig {
-      -- simple stuff
-        terminal           = myTerminal,
-        focusFollowsMouse  = myFocusFollowsMouse,
-        borderWidth        = myBorderWidth,
-        modMask            = myModMask,
-        workspaces         = myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+defaults = ewmh $ def {
+  -- The preferred terminal program, which is used in a binding below and by
+  -- certain contrib modules.
+  terminal           = "urxvt",
 
-      -- key bindings
-        keys               = myKeys,
-        mouseBindings      = myMouseBindings,
+  -- Whether focus follows the mouse pointer.
+  focusFollowsMouse  = True,
+    
+  -- Width of the window border in pixels.
+  borderWidth        = 0,
 
-      -- hooks, layouts
-        layoutHook         = myLayout,
-        manageHook         = myManageHook,
-        handleEventHook    = myEventHook,
-        logHook            = myLogHook,
-        startupHook        = myStartupHook
-    }
+  -- modMask lets you specify which modkey you want to use. The default
+  -- is mod1Mask ("left alt").  You may also consider using mod3Mask
+  -- ("right alt"), which does not conflict with emacs keybindings. The
+  -- "windows key" is usually mod4Mask.
+  modMask            = mod4Mask,
+  workspaces         = myWorkspaces,
+
+  -- Border colors for unfocused and focused windows, respectively.
+  normalBorderColor  = "#dddddd",
+  focusedBorderColor = "#ff0000",
+
+  -- key bindings
+  keys               = myKeys,
+  mouseBindings      = myMouseBindings,
+
+  -- hooks, layouts
+  layoutHook         = myLayout,
+  manageHook         = myManageHook,
+  handleEventHook    = myEventHook,
+  logHook            = myLogHook,
+  startupHook        = myStartupHook
+}
