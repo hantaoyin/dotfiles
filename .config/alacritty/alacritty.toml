@@ -1,0 +1,23 @@
+[font]
+normal = { family = "FreeMono", style = "Regular" }
+italic = { family = "FreeMono", style = "Oblique" }
+bold = { family = "FreeMono", style = "Bold" }
+bold_italic = { family = "FreeMono", style = "Bold Oblique" }
+size = 28
+
+[keyboard]
+bindings = [
+  # These are used in conjunction with tmux to create new windows (aka "panes") and move around
+  # them.
+  #
+  # \uE000 - \uF8FF is a Unicode private use area.
+  #
+  # This usage is copied from:
+  # https://medium.com/@jogarcia/alacritty-with-tmux-escape-sequence-for-custom-binding-47df5e401c51
+  {key = ";", mods = "Super", mode = "AppCursor", chars = "\uE100" },
+  {key = "'", mods = "Super", mode = "AppCursor", chars = "\uE101" },
+  {key = "/", mods = "Super", mode = "AppCursor", chars = "\uE102" },
+]
+
+[window]
+startup_mode = "Maximized"
